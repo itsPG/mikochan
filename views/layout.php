@@ -93,7 +93,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #title {
 	background-color: #FC9;
 	padding: 0px;
-	height: 200px;
+	height: 80px;
 	width: 100%;
 }
 #mode_msg {
@@ -188,9 +188,8 @@ jQuery.cookie = function(name, value, options) {
 <div id="post_show_img"></div>
 <div id="main">
 	<div id="title">
-	mikochan v0.5.x 私人貼圖區的完美解決方案(暫定ㄎㄎ)<br />
-	排版針對貼圖區的特性強化，並大量運用JavaScript以達到更好的使用者體驗<br />
-	[注意] 沒有VIP code的人無法使用實驗中的網址上傳功能，抱歉!<br />
+	mikochan v0.5.x 私人貼圖區的完美解決方案  (暫定ㄎㄎ)<br />
+
 	
 	頁面產生時間 : <?php echo $this->benchmark->elapsed_time();?><br />
 	<div style="float:right;"><input type="button" id="form_new" value="發表新文章" /></div>
@@ -272,6 +271,34 @@ function open_form_main()
 		modal: true
 	});
 }
+/*
+function PG_form_array()
+{
+	var a = [];
+	var obj = $('#form_main').serializeArray();
+	$.each
+	(
+		obj, function(k,v)
+		{ 
+			a.push({name:v.name, value: v.value});
+		}
+	);
+	return a ;
+}
+function PG_ajax_post()
+{
+	return true;
+	alert ("going to post " + "<?=base_url()?>index.php/mikochan/do_upload");
+	var tmp = PG_form_array();
+	$.ajax
+	({
+		type : "POST",
+		data : tmp ,
+		url : "<?=base_url()?>index.php/mikochan/do_upload" ,
+		success : function(data){ alert('ajax got ' + data);}
+	});
+}
+*/
 var PG_return_aim;
 <? if (isset($jump_to)): ?>
 $("html,body").scrollTop( $("#post_no_<?=$jump_to?>").offset().top );
@@ -279,6 +306,7 @@ $("html,body").scrollTop( $("#post_no_<?=$jump_to?>").offset().top );
 $("#post_view").hide();
 $("input:submit, a, button, #form_new").button();
 $("#form_name").val($.cookie("name"));
+//alert('cookie is ' + $.cookie("VIP_code"));
 if ($.cookie("VIP_code") != null && $.cookie("VIP_code") !="")
 {
 	$("#form_rec").hide();
@@ -286,22 +314,27 @@ if ($.cookie("VIP_code") != null && $.cookie("VIP_code") !="")
 }
 $(document).ready(function(){
 	$("#bot").html("Hello jQuery!");
-	if (screen.width >=1430 ){}
+	if (screen.width >=1430 )
+	{
+		$("#main").css("width","1440px");
+		$(".post_img").css("width","160px");
+		$(".post_img2").css("width","160px");
+	}
 	else if (screen.width < 1430 && screen > 1200)
 	{
 
 		$("#main").css("width","1200px");
 		$(".post").css("width","1150px");
-		$(".post_img").css("width","120px");
-		$(".post_img2").css("width","130px");
+		$(".post_img").css("width","110px");
+		$(".post_img2").css("width","120px");
 		$(".post_title_td").css("width","800px");
 	}
 	else
 	{
 		$("#main").css("width","1000px");
 		$(".post").css("width","950px");
-		$(".post_img").css("width","90px");
-		$(".post_img2").css("width","95px");
+		$(".post_img").css("width","80px");
+		$(".post_img2").css("width","90px");
 		$(".post_title_td").css("width","200px");
 
 	}
@@ -409,7 +442,10 @@ $("#form_main").submit(function(){
 			alert("請輸入推文內容");
 			return false;
 		}
-		else return true;
+		else
+		{
+			return true;
+		}
 	}
 	else
 	{
@@ -424,6 +460,7 @@ $("#form_main").submit(function(){
 			return false;
 		}
 	}
+
 });
 $(".EventExtend").click(function(){
 	PG_return_aim = $(window).scrollTop();
@@ -447,12 +484,15 @@ $("#post_back").click(function(){
 $("#form_VIP_code").change(function(){
 	var tmp = $("#form_VIP_code").val();
 	$.cookie("VIP_code", tmp);
+	//alert('save code' + tmp);
+	//alert('cookie is ' + $.cookie("VIP_code"));
 	if (tmp == "")
 	{
 		$("#form_rec").show();
 	}
 	else $("#form_rec").hide();
 });
+
 </script>
 </body>
 </html>

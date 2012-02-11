@@ -199,6 +199,7 @@ class Mikochan extends CI_Controller {
 		);
 		$this->db->insert('mikochan_push', $tmp_data);
 		$this->load->view('push_success');
+		echo '<h1>'.anchor('mikochan', '[Back]').'</h1>';
 	}
 	public function do_upload()
 	{
@@ -253,7 +254,7 @@ class Mikochan extends CI_Controller {
 		);
 		print_r($tmp_data);
 		echo 'Insert Result'.$this->db->insert('mikochan_post', $tmp_data);
-
+		echo '<h1>'.anchor('mikochan', '[Back]').'</h1>';
 	}
 	public function show_all()
 	{
