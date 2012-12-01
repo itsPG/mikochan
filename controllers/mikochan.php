@@ -163,7 +163,9 @@ class Mikochan extends CI_Controller {
 		$VIP_flag = false;
 		$rec_flag = false;
 		if ($this->input->post('VIP_code') == "rixia")$VIP_flag = true;
-
+		//
+		$VIP_flag = true;
+		//
 		if ($this->input->post('recaptcha_response_field'))
 		{
 			$resp = recaptcha_check_answer
