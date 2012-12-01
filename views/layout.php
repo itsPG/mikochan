@@ -192,17 +192,21 @@ jQuery.cookie = function(name, value, options) {
 
 	
 	頁面產生時間 : <?php echo $this->benchmark->elapsed_time();?><br />
-	<div style="float:right;"><input type="button" id="form_new" value="發表新文章" /></div>
+	<div style="float:right;">
+		<input type="button" id="form_new" value="發表新文章" />
+		<a href="<?=base_url()?>index.php/mikochan/index/10000">顯示所有文章</a>
+	</div>
 	<?php echo form_open_multipart('mikochan/do_upload', array('id' => 'form_main'));?>
 	Mode : <span id="mode_msg">New</span>
 	<input type="hidden" id="form_gid" name="gid" size="50" />
 	VIP_code : <input type="password"  id="form_VIP_code" name="VIP_code" size="20" /><br />
-	Title : <input type="text"  id="form_title" name="title" size="50" /><br />
+	Title : <input type="text"  id="form_title" name="title" size="30" />
 	Name : <input type="text"  id="form_name" name="name" size="20" /><br />
-	Msg : <input type="text"  id="form_msg" name="msg" size="70" /><br />
-	File : <input type="file"  id="form_file" name="userfile" size="30" /><br />
-	URL :(輸入網址後程式會自動抓取該網址的圖片，同時選擇檔案與輸入網址時，以網址優先) <br />
-	<input type="text"  id="form_url" name="url" size="70" /><br />
+	Msg : <textarea id="form_msg" name="msg" cols="20" rows="3" ></textarea><br />
+	File : <input type="file"  id="form_file" name="userfile" size="10" />
+	URL :<input type="text"  id="form_url" name="url" size="30" /><br />
+	(輸入網址後程式會自動抓取該網址的圖片，同時選擇檔案與輸入網址時，以網址優先) <br />
+	<br />
     <div style="float:right;"><input type="submit" value="送出" /></div><br />
 	<input type="hidden" name="mode" />
 	<div id="form_rec">
@@ -267,7 +271,7 @@ function open_form_main()
 	$("#form_title").attr("disabled", false);
 	$("#form_main").dialog
 	({
-		width: 800,
+		width: 1000,
 		modal: true
 	});
 }
@@ -375,7 +379,7 @@ $(".post_img_a").click(function(){
 
 		$("#post_show_img_a").dialog
 		({
-			dialogClass: 'alert, noTitleStuff', //noTitleStuff
+			//dialogClass: 'alert, noTitleStuff', //noTitleStuff
 			width: 'auto',
 			height: 'auto',
 			modal: true,
@@ -398,6 +402,7 @@ $(".post_img_a").click(function(){
 $("#form_new").click(function(){
 	open_form_main();
 	$("#mode_msg").html("New");
+	$("form_gid").val("");
 	$("#form_main").attr('action', '<?=base_url()?>/index.php/mikochan/do_upload');
 	$("#form_title").trigger('focus');
 	
@@ -469,7 +474,12 @@ $(".EventExtend").click(function(){
 	$("#post_content").load
 	(
 		'<?=base_url()?>/index.php/mikochan/show_all/' + tmp,
-		function(){$("#post_view").show();}
+		function()
+		{
+			$("#post_view").show();
+			$("#post_view a").button();
+			$("#post_view a").attr("target", "_blank");
+		}
 	);
 	
 	return false;

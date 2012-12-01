@@ -55,7 +55,29 @@ class Mikochan extends CI_Controller {
 
 		//echo "<h1>this is miko!!</h1><br/>";
 		//$this->load->view('welcome_message');
-		$q_group = $this->db->query('SELECT * FROM mikochan_group ORDER BY date DESC')->result();
+		if (func_num_args() == 0)
+		{
+			$q_group = $this->db->query('SELECT * FROM mikochan_group ORDER BY date DESC LIMIT 20')->result();
+		}
+		else if (func_num_args() == 1)
+		{
+			$q_group_limit = func_get_arg(0);
+			if (!is_numeric($q_group_limit)) die("");
+			$q_group = $this->db->
+			query('SELECT * FROM mikochan_group ORDER BY date DESC LIMIT '.$q_group_limit)->result();
+
+		}
+		else if (func_num_args() == 2)
+		{
+
+			$q_group_limit = func_get_arg(0);
+			$q_group_from = func_get_arg(1);
+			if (!is_numeric($q_group_from) || !is_numeric($q_group_from)) die("");
+			//echo func_num_args().$q_group_from."/".$q_group_limit;
+			$q_group = $this->db->
+			query('SELECT * FROM mikochan_group ORDER BY date DESC LIMIT '.$q_group_from.','.$q_group_limit)->result();
+
+		}
 		
 		foreach ($q_group as $i)
 		{
@@ -90,11 +112,13 @@ class Mikochan extends CI_Controller {
 			$data['query3'][$i->id] = $this->db->get('mikochan_push')->result();
 			
 		}
+		/*
 		if (func_num_args() == 1)
 		{
 			$tmp = func_get_arg(0);
 			if (is_numeric($tmp)) $data['jump_to'] = $tmp;
 		}
+		*/
 		$this->load->view('layout', $data);
 	}
 	public function up_test()
